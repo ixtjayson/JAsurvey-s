@@ -4,25 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial Satisfaction Survey</title>
-    <script src="https://cdn.jsdelivr.net/npm/country-list-js/dist/country-list.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
-
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <h1>Financial Satisfaction Survey</h1>
-    <form id="surveyForm" method="POST" action="/submit">
+    <form id="surveyForm" method="POST">
         <!-- Country Selection -->
         <div>
             <label for="country">1. What country are you from?</label>
-            <select id="country" name="country">
-                <!-- Country options will be populated by JavaScript -->
+            <select id="country" name="country" required>
+                <option value="" disabled selected>Select your country</option>
             </select>
         </div>
 
         <!-- Income Satisfaction -->
         <div>
             <label for="incomeSatisfaction">2. On a scale of 1 to 10, how satisfied are you with your current income?</label>
-            <select id="incomeSatisfaction" name="incomeSatisfaction">
+            <select id="incomeSatisfaction" name="incomeSatisfaction" required>
                 <option value="1">1 (Very dissatisfied)</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -39,7 +37,7 @@
         <!-- Income Dependency -->
         <div>
             <label for="incomeDependency">3. On a scale of 1 to 10, how dependent are you on your current income for your living expenses?</label>
-            <select id="incomeDependency" name="incomeDependency">
+            <select id="incomeDependency" name="incomeDependency" required>
                 <option value="1">1 (Not dependent at all)</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -56,7 +54,7 @@
         <!-- Income Level -->
         <div>
             <label for="incomeLevel">4. What is your current monthly income?</label>
-            <select id="incomeLevel" name="incomeLevel">
+            <select id="incomeLevel" name="incomeLevel" required>
                 <option value="1-2999">1,000 - 2,999 USD</option>
                 <option value="3000-4999">3,000 - 4,999 USD</option>
                 <option value="5000-9999">5,000 - 9,999 USD</option>
@@ -72,7 +70,7 @@
         <!-- Financial Stability -->
         <div>
             <label for="financialStability">5. On a scale of 1 to 10, how financially stable do you feel?</label>
-            <select id="financialStability" name="financialStability">
+            <select id="financialStability" name="financialStability" required>
                 <option value="1">1 (Not stable)</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -89,7 +87,7 @@
         <!-- Employment Satisfaction -->
         <div>
             <label for="employmentSatisfaction">6. How satisfied are you with your current employment?</label>
-            <select id="employmentSatisfaction" name="employmentSatisfaction">
+            <select id="employmentSatisfaction" name="employmentSatisfaction" required>
                 <option value="1">1 (Very dissatisfied)</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -106,17 +104,7 @@
         <button type="submit">Submit</button>
     </form>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const countrySelect = document.getElementById('country');
-            const countries = CountryList.getNames(); // Get all country names
-            countries.forEach(country => {
-                const option = document.createElement('option');
-                option.value = country;
-                option.textContent = country;
-                countrySelect.appendChild(option);
-            });
-        });
-    </script>
+    <script src="js/country-list.min.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
