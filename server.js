@@ -1,30 +1,28 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const multer = require('multer');
 const fs = require('fs');
-const path = require('path');
+const multer = require('multer');
+const upload = multer();
+
 const app = express();
-
-const upload = multer(); // For handling multipart/form-data
-
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static('public'));
 
-app.post('/submit', upload.none(), (req, res) => {
+app.post('/submit-survey', upload.none(), (req, res) => {
     const { country, incomeSatisfaction, incomeDependency, incomeLevel, financialStability, employmentSatisfaction } = req.body;
-    const data = `${country},${incomeSatisfaction},${incomeDependency},${incomeLevel},${financialStability},${employmentSatisfaction}\n`;
-
-    fs.appendFile('survey_data.csv', data, (err) => {
+    
+    const csvLine = `${country},${incomeSatisfaction},${incomeDependency},${incomeLevel},${financialStability},${employmentSatisfaction}\n`;
+    
+    fs.appendFile('survey_data.csv', csvLine, err => {
         if (err) {
-            console.error('Error saving data:', err);
-            res.status(500).send('Server error. Please try again.');
-        } else {
-            console.log('Data saved!');
-            res.send('Thank you for your submission!');
+            console.error('Error writing to file', err);
+            return res.status(500).send('Internal Server Error');
         }
+        res.send('Survey data submitted successfully');
     });
 });
 
 app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+    console.log('Server running on http://localhost:3000');
 });
