@@ -1,7 +1,5 @@
-// Import Brain.js
-const brain = require('brain.js');
-const _ = require('lodash');
-const Chart = require('chart.js');
+// Ensure brain.js is available globally
+const brain = window.brain;
 
 // Game variables
 let score = 0;
@@ -32,20 +30,27 @@ const performanceChart = new Chart(ctx, {
 });
 
 // Load the trained model
-function loadModel() {
-    const modelJSON = JSON.parse(localStorage.getItem('trainedModel'));
-    const net = new brain.NeuralNetwork();
-    net.fromJSON(modelJSON);
-    return net;
+async function loadModel() {
+    try {
+        const response = await fetch('trainedModel.json');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const modelJSON = await response.json();
+        const net = new brain.NeuralNetwork();
+        net.fromJSON(modelJSON);
+        return net;
+    } catch (error) {
+        console.error('Error loading model:', error);
+        return null;
+    }
 }
 
 // Initialize the game
-function initGame() {
+async function initGame() {
     score = 0;
     difficulty = 1;
     updateScore();
     generateEquation();
-    startTimer();
+    await startTimer();
 }
 
 // Generate a new equation
@@ -58,12 +63,14 @@ function generateEquation() {
 }
 
 // Start the timer with AI adjustment
-function startTimer() {
+async function startTimer() {
     clearInterval(timer);
     timerValue = _.random(3, 15); // Initial timer value
 
     // Load model and make predictions
-    const model = loadModel();
+    const model = await loadModel();
+    if (!model) return; // Exit if model loading fails
+
     const input = [score, difficulty, timerValue];
     const output = model.run(input);
     
