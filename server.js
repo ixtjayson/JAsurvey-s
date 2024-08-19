@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Serve static files (if needed)
+// Serve static files (e.g., CSS, JavaScript)
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Endpoint to handle form submissions
@@ -21,10 +21,9 @@ app.post('/webhook', (req, res) => {
     fs.appendFile('submissions.json', formData + '\n', (err) => {
         if (err) {
             console.error('Error saving form data:', err);
-            res.status(500).send('Error saving data');
-        } else {
-            res.status(200).send('Form submitted successfully');
+            return res.status(500).send('Error saving data');
         }
+        res.status(200).send('Form submitted successfully');
     });
 });
 
