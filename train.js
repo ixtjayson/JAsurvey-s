@@ -23,3 +23,4 @@ net.train(trainingData, {
 // Save the trained model
 fs.writeFileSync('trainedModel.json', JSON.stringify(net.toJSON()));
 console.log('Model trained and saved.');
+
