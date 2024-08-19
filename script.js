@@ -1,23 +1,26 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Handle form submission
-    document.getElementById('surveyForm').addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent the default form submission
-        
-        const formData = new FormData(this);
-        
-        // Send form data to server
-        fetch('/submit-survey', {
+// /public/js/script.js
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('surveyForm');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Example of additional client-side validation or actions
+        const formData = new FormData(form);
+        fetch('/webhook-endpoint', {
             method: 'POST',
             body: formData
         })
-        .then(response => response.text())
-        .then(data => {
-            console.log(data); // Log server response
-            alert("Survey submitted successfully!");
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/thank-you.html'; // Redirect to thank-you page
+            } else {
+                console.error('Form submission failed:', response.statusText);
+            }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert("There was an error submitting your survey. Please try again.");
         });
     });
 });
