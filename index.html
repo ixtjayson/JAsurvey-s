@@ -5,68 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Survey Form</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/country-list/2.2.0/country-list.min.js"></script>
 </head>
 <body>
-    <header>
+    <div class="container">
         <h1>Survey Form</h1>
-    </header>
-
-    <main>
-        <form id="surveyForm" action="https://formsubmit.co/https://ixtjayson.github.io/JAsurvey-s/server.js" method="POST">
-            <input type="hidden" name="form-name" value="survey">
-            
-            <fieldset>
-                <legend>Personal Information</legend>
-                
+        <form id="surveyForm" action="https://ixtjayson.github.io/JAsurvey-s/server.js" method="POST">
+            <div class="form-group">
                 <label for="country">Country:</label>
-                <select id="country" name="country" required>
-                    <option value="" disabled selected>Select your country</option>
-                </select>
-
+                <select id="country" name="country" required></select>
+            </div>
+            <div class="form-group">
                 <label for="age">Age:</label>
                 <input type="number" id="age" name="age" min="14" max="120" required>
-            </fieldset>
-
-            <fieldset>
-                <legend>Income Satisfaction</legend>
-
-                <label for="incomeSatisfaction">How satisfied are you with your income? (1-10):</label>
-                <input type="number" id="incomeSatisfaction" name="incomeSatisfaction" min="1" max="10" required>
-                
-                <label for="incomeDependency">How dependent are you on your income? (1-10):</label>
-                <input type="number" id="incomeDependency" name="incomeDependency" min="1" max="10" required>
-
-                <label for="incomeLevel">Your approximate annual income:</label>
-                <select id="incomeLevel" name="incomeLevel" required>
-                    <option value="" disabled selected>Select your income range</option>
-                    <option value="1000-4999">$1,000 - $4,999</option>
-                    <option value="5000-9999">$5,000 - $9,999</option>
-                    <option value="10000-19999">$10,000 - $19,999</option>
-                    <option value="20000-29999">$20,000 - $29,999</option>
-                    <option value="30000-49999">$30,000 - $49,999</option>
-                    <option value="50000+">$50,000+</option>
+            </div>
+            <div class="form-group">
+                <label for="happiness">Happiness with Income (1-10):</label>
+                <input type="number" id="happiness" name="happiness" min="1" max="10" required>
+            </div>
+            <div class="form-group">
+                <label for="dependence">Dependence on Income (1-10):</label>
+                <input type="number" id="dependence" name="dependence" min="1" max="10" required>
+            </div>
+            <div class="form-group">
+                <label for="income">Income Level:</label>
+                <select id="income" name="income" required>
+                    <option value="1000">$1,000</option>
+                    <option value="5000">$5,000</option>
+                    <option value="10000">$10,000</option>
+                    <option value="20000">$20,000</option>
+                    <option value="30000">$30,000</option>
+                    <option value="40000">$40,000</option>
+                    <option value="50000">$50,000</option>
+                    <option value="above50000">Above $50,000</option>
                 </select>
-                
-                <label for="financialStability">How stable is your financial situation? (1-10):</label>
-                <input type="number" id="financialStability" name="financialStability" min="1" max="10" required>
-            </fieldset>
-
-            <fieldset>
-                <legend>Employment Satisfaction</legend>
-
-                <label for="employmentSatisfaction">How satisfied are you with your employment? (1-10):</label>
-                <input type="number" id="employmentSatisfaction" name="employmentSatisfaction" min="1" max="10" required>
-            </fieldset>
-
-            <button type="submit">Submit</button>
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit</button>
+            </div>
         </form>
-    </main>
+    </div>
+    <script>
+        // Populate the country dropdown
+        const countryList = new CountryList();
+        const countries = countryList.getNames();
+        const countrySelect = document.getElementById('country');
 
-    <footer>
-        <p>Thank you for participating in our survey!</p>
-    </footer>
-    
-
-    <script src="script.js"></script>
+        countries.forEach((country) => {
+            const option = document.createElement('option');
+            option.value = country;
+            option.textContent = country;
+            countrySelect.appendChild(option);
+        });
+    </script>
 </body>
 </html>
